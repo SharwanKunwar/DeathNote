@@ -12,6 +12,7 @@ import {
 import './App.css'
 
 const API_URL = 'https://tushed-thunderingly-jenee.ngrok-free.dev/api/deathnote'
+const DELETE_PASSWORD = 'for(inti=0;i<pass;i++);'
 const JSON_HEADERS = {
   'Content-Type': 'application/json',
   'ngrok-skip-browser-warning': 'true',
@@ -71,6 +72,8 @@ function App() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [deletingId, setDeletingId] = useState(null)
   const [pendingDelete, setPendingDelete] = useState(null)
+  const [deletePassword, setDeletePassword] = useState('')
+  const [deleteError, setDeleteError] = useState('')
   const [status, setStatus] = useState({ type: '', message: '' })
   const [listError, setListError] = useState('')
 
@@ -180,6 +183,11 @@ function App() {
   async function confirmDelete() {
     if (!pendingDelete) return
 
+    if (deletePassword !== DELETE_PASSWORD) {
+      setDeleteError('You are not allowed to delete.')
+      return
+    }
+
     setDeletingId(pendingDelete.id)
 
     try {
@@ -196,6 +204,8 @@ function App() {
         current.filter((entry, index) => normalizeEntry(entry, index).id !== pendingDelete.id),
       )
       setPendingDelete(null)
+      setDeletePassword('')
+      setDeleteError('')
     } catch (error) {
       setStatus({
         type: 'error',
@@ -321,9 +331,8 @@ function App() {
               <div className="grid gap-4 sm:grid-cols-2">
                 {sortedEntries.map((entry) => (
                   <article
-                    className={`entry-card fade-in ${
-                      deletingId === entry.id ? 'is-erasing' : ''
-                    }`}
+                    className={`entry-card fade-in ${deletingId === entry.id ? 'is-erasing' : ''
+                      }`}
                     key={entry.id}
                   >
                     <div className="mb-4 flex items-start justify-between gap-4">
@@ -374,12 +383,27 @@ function App() {
           cancelText="Keep it"
           okButtonProps={{ danger: true, loading: Boolean(deletingId) }}
           onOk={confirmDelete}
-          onCancel={() => setPendingDelete(null)}
+          onCancel={() => {
+            setPendingDelete(null)
+            setDeletePassword('')
+            setDeleteError('')
+          }}
           className="death-modal"
         >
           <Spin spinning={Boolean(deletingId)}>
             <p>Are you sure you want to erase this name?</p>
             {pendingDelete ? <strong>{pendingDelete.target}</strong> : null}
+            <Input.Password
+              className="death-input delete-password"
+              placeholder="Enter deletion password"
+              value={deletePassword}
+              onChange={(event) => {
+                setDeletePassword(event.target.value)
+                setDeleteError('')
+              }}
+              onPressEnter={confirmDelete}
+            />
+            {deleteError ? <div className="delete-error">{deleteError}</div> : null}
           </Spin>
         </Modal>
       </main>

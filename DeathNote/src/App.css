@@ -313,6 +313,34 @@
   color: #ff5a5e;
 }
 
+.delete-password {
+  margin-top: 18px;
+}
+
+.delete-password.ant-input-affix-wrapper {
+  border-color: #6b251e !important;
+  background: #080606 !important;
+}
+
+.delete-password.ant-input-affix-wrapper input {
+  background: transparent !important;
+  color: #f0dfbd !important;
+}
+
+.delete-password .ant-input-suffix,
+.delete-password .anticon {
+  color: #d8bf88 !important;
+}
+
+.delete-error {
+  margin-top: 10px;
+  border: 1px solid rgba(197, 31, 39, 0.68);
+  border-radius: 6px;
+  background: rgba(87, 9, 13, 0.68);
+  padding: 9px 11px;
+  color: #ffd0cf;
+}
+
 @keyframes title-flicker {
   0%,
   100% {
