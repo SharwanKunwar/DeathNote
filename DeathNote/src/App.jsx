@@ -237,7 +237,7 @@ function App() {
         <header className="relative isolate px-5 pb-12 pt-14 text-center sm:pt-20">
           <div className="mx-auto max-w-5xl">
             <p className="mb-3 font-body text-sm uppercase tracking-[0.32em] text-[#b9904d]">
-              Shinigami Ledger
+              Sharwan jung kunwar's
             </p>
             <h1 className="font-heading text-5xl font-black leading-none text-[#e9dcc0] death-title sm:text-7xl lg:text-8xl">
               DEATH NOTE
